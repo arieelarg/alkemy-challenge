@@ -1,19 +1,20 @@
-import Transaction from "./Transaction";
+import Transaction from "./../../Components/Transaction";
 import { Table, Row } from "react-bootstrap";
 import { useFetch } from "./../../customHooks/useHTTP";
 
 const Transactions = () => {
   const [transactions, fetching, error] = useFetch("transactions");
+  console.log(transactions);
   return (
     <>
       <Row>
         <h3>Transactions</h3>
-        </Row>
-        
-        {fetching ? (
-          ""
-        ) : (
-          <Row>
+      </Row>
+
+      {fetching ? (
+        "Cargando..."
+      ) : (
+        <Row>
           <Table striped bordered hover className="p-2">
             <thead>
               <tr>
@@ -21,7 +22,7 @@ const Transactions = () => {
                 <th>Create</th>
                 <th>Type</th>
                 <th>Category</th>
-                <th>concept</th>
+                <th>Concept</th>
                 <th>Amount</th>
               </tr>
             </thead>
@@ -31,9 +32,9 @@ const Transactions = () => {
               ))}
             </tbody>
           </Table>
-          </Row>
-        )}
-        </>
+        </Row>
+      )}
+    </>
   );
 };
 

@@ -6,24 +6,25 @@ export const useFetch = (url, initialState = {}) => {
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState(false);
 
-  const fetchData = async () => {
-    try {
-      const result = await fetch(`${environment.BASE_URL}/${url}`, {
-        method: "GET",
-        headers: {
-          Authorization: "",
-        },
-      });
-      const data = await result.json();
-      setData(data.results);
-      setFetching(false);
-    } catch (e) {
-      setData(initialState);
-      setFetching(false);
-      setError(true);
-    }
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetch(`${environment.BASE_URL}/${url}`, {
+          method: "GET",
+          headers: {
+            Authorization: "",
+          },
+        });
+        const data = await result.json();
+        setData(data.results);
+        setFetching(false);
+      } catch (e) {
+        setData(initialState);
+        setFetching(false);
+        setError(true);
+      }
+    };
+
     fetchData();
   }, []);
 
