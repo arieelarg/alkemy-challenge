@@ -24,7 +24,6 @@ export const useFetch = (url, initialState = {}) => {
         setError(true);
       }
     };
-
     fetchData();
   }, []);
 

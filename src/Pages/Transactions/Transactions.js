@@ -1,10 +1,9 @@
 import Transaction from "./../../Components/Transaction";
 import { Table, Row } from "react-bootstrap";
-import { useFetch } from "./../../customHooks/useHTTP";
+import { useFetch } from "../../customHooks/useHTTP";
 
 const Transactions = () => {
-  const [transactions, fetching, error] = useFetch("transactions");
-  console.log(transactions);
+  const [transactions, fetching] = useFetch("transactions");
   return (
     <>
       <Row>
