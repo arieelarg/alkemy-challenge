@@ -5,8 +5,6 @@ import Transaction from "../../Components/Transaction";
 const Home = () => {
   const [balance, fetching, error] = useFetch("panel/balance");
   const [transactions, fetching2, error2] = useFetch("transactions");
-  console.log("transactions: ", transactions);
-  console.log("balance: ", balance);
   return (
     <>
       <Row>

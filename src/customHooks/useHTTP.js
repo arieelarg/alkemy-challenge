@@ -1,5 +1,6 @@
 import { environment } from "../constants";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export const useFetch = (url, initialState = {}) => {
   const [data, setData] = useState(initialState);
@@ -36,15 +37,9 @@ export const usePost = () => {
   const postData = async (endpoint, object) => {
     try {
       setFetching(true);
-      const responseData = await fetch(
+      const responseData = await axios.post(
         `${environment.BASE_URL}/${endpoint}`,
-        object,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "",
-          },
-        }
+        object
       );
       setResponse(responseData);
       setFetching(false);

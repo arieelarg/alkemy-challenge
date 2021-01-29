@@ -1,9 +1,27 @@
 import { Form, Row, Col, Button } from "react-bootstrap";
-import { useFetch } from "../../../customHooks/useHTTP";
+import { useFetch, usePost } from "../../../customHooks/useHTTP";
 import { types } from "../../../constants";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  concept: yup.string().required(),
+  amount: yup.number().required(),
+  idCategory: yup.number().required(),
+  idType: yup.number().required(),
+});
 
 const Create = () => {
+  const { register, handleSubmit, reset, errors } = useForm({
+    resolver: yupResolver(schema),
+  });
   const [categories, fetching] = useFetch("categories");
+  const [post, response, fPost] = usePost();
+  const onSubmit = (data, e) => {
+    post("transactions/create", data);
+    e.target.reset();
+  };
   return (
     <>
       <Row className={"justify-content-center"}>
@@ -11,24 +29,42 @@ const Create = () => {
       </Row>
       <br />
       <Row className={"justify-content-center"}>
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
           <Form.Row>
             <Col>
-              <Form.Group controlId="concept">
-                <Form.Label>Concept</Form.Label>
-                <Form.Control type="text" placeholder="" />
+              <Form.Group>
+                <Form.Label htmlFor="concept">Concept</Form.Label>
+                <Form.Control
+                  id="concept"
+                  ref={register}
+                  name="concept"
+                  type="text"
+                  placeholder=""
+                />
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group controlId="amount">
-                <Form.Label>Amount</Form.Label>
-                <Form.Control type="text" placeholder="99.99" />
+              <Form.Group>
+                <Form.Label htmlFor="amount">Amount</Form.Label>
+                <Form.Control
+                  id="amount"
+                  ref={register}
+                  name="amount"
+                  type="text"
+                  placeholder="99.99"
+                />
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group controlId="type">
-                <Form.Label>Type</Form.Label>
-                <Form.Control as="select" defaultValue="0">
+              <Form.Group>
+                <Form.Label htmlFor="idType">Type</Form.Label>
+                <Form.Control
+                  id="idType"
+                  ref={register}
+                  name="idType"
+                  as="select"
+                  defaultValue="0"
+                >
                   <option disabled value="0">
                     Type
                   </option>
@@ -41,9 +77,15 @@ const Create = () => {
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group controlId="category">
-                <Form.Label>Category</Form.Label>
-                <Form.Control as="select" defaultValue="0">
+              <Form.Group>
+                <Form.Label htmlFor="idCategory">Category</Form.Label>
+                <Form.Control
+                  id="idCategory"
+                  ref={register}
+                  name="idCategory"
+                  as="select"
+                  defaultValue="0"
+                >
                   <option disabled value="0">
                     Category
                   </option>
@@ -60,12 +102,11 @@ const Create = () => {
           <Button variant="primary" type="submit" className="btn-block">
             Submit
           </Button>
-          <Button variant="secondary" type="submit" className="btn-block">
+          {fPost && <h3>enviando datos</h3>}
+          <Button variant="secondary" className="btn-block">
             Volver
           </Button>
         </Form>
-        {/*<th>Type</th>*/}
-        {/*<th>Category</th>*/}
       </Row>
     </>
   );
